@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const animateObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        entry.target.classList.remove('pre-animate');
         entry.target.classList.add('animated');
         animateObserver.unobserve(entry.target);
       }
@@ -80,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
     '.contact-form-panel',
     '.contact-info-panel',
   ];
+
+  // Contact panels: add pre-animate first so they start hidden,
+  // then JS observer reveals them. If JS fails, panels stay visible (CSS default).
+  document.querySelectorAll('.contact-form-panel, .contact-info-panel').forEach(el => {
+    el.classList.add('pre-animate');
+  });
 
   animatables.forEach(selector => {
     document.querySelectorAll(selector).forEach(el => {
